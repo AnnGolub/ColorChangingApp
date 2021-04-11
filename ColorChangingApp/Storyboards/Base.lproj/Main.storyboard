@@ -189,7 +189,6 @@
                         <outlet property="redLabel" destination="W2d-22-JdT" id="4mw-lk-rwt"/>
                         <outlet property="redSlider" destination="n4e-QX-1F2" id="Uhz-46-F7j"/>
                         <outlet property="redTextField" destination="LG3-tJ-n5v" id="8Kz-DC-RTZ"/>
-                        <outlet property="slidersStackView" destination="aOJ-pN-dd5" id="j1j-dO-pOP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ic3-rW-IYC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

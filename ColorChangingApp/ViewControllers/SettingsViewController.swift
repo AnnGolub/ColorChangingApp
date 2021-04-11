@@ -8,8 +8,6 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
-    @IBOutlet weak var slidersStackView: UIStackView!
-    
     @IBOutlet weak var colorView: UIView!
     
     @IBOutlet weak var redLabel: UILabel!
@@ -31,9 +29,12 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         colorView.layer.cornerRadius = 16
         
+        redSlider.value = Float(settingsView.rgba.red)
+        greenSlider.value = Float(settingsView.rgba.green)
+        blueSlider.value = Float(settingsView.rgba.blue)
+        
         colorView.backgroundColor = settingsView
         
-        //        setColor()
         setValue(for: redLabel, greenLabel, blueLabel)
         setValueForTextField()
         
@@ -92,6 +93,19 @@ class SettingsViewController: UIViewController {
     
 }
 
+// MARK: - Color components from UIColor
+extension UIColor {
+    var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        
+        return (red, green, blue, alpha)
+    }
+}
+
 // MARK: - Work with keyboard
 extension SettingsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -100,11 +114,9 @@ extension SettingsViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
         guard let text = textField.text else { return }
         
         if let currentValue = Float(text) {
-            
             switch textField {
             case redTextField: redSlider.value = currentValue
             case greenTextField: greenSlider.value = currentValue
@@ -113,13 +125,24 @@ extension SettingsViewController: UITextFieldDelegate {
             
             setColor()
             setValue(for: redLabel, greenLabel, blueLabel)
+        } else {
+            showAllert(with: "Incorrect", message: "Please enter correct numbers")
         }
     }
 }
 
 extension SettingsViewController {
-    private func addDoneButtonTo(_ textField: UITextField) {
+    private func showAllert(with title: String, message: String) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
         
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+    private func addDoneButtonTo(_ textField: UITextField) {
         let numberToolbar = UIToolbar()
         textField.inputAccessoryView = numberToolbar
         numberToolbar.sizeToFit()
